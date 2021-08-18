@@ -23,8 +23,9 @@ d = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[
 d.click()
 for i in tqdm(range(3), leave = False, desc = '1. 1st round'):
     print(bs_names)
-    WebDriverWait(driver, 25)
     time.sleep(30)
+    WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.CLASS_NAME, "section-layout siAUzd-neVct-Q3DXx-horizontal")))
+    
     bs= [i.text for i in driver.find_elements_by_css_selector('[class="qBF1Pd gm2-subtitle-alt-1"]')]
     bs_names = bs
 
