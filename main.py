@@ -7,6 +7,7 @@ from tqdm import tqdm
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.webdriver.common.touch_actions import TouchActions
 
 driver = webdriver.Chrome("c:\\chromedriver.exe")
 
@@ -19,25 +20,33 @@ driver.get(url)
 
 WebDriverWait(driver, 30)
 time.sleep(30)
-d = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[1]/div[2]/div/div[2]/span[1]/span[1]/button')
+d = driver.find_element_by_xpath(
+    '//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[1]/div[2]/div/div[2]/span[1]/span[1]/button')
 d.click()
-for i in tqdm(range(3), leave = False, desc = '1. 1st round'):
+for i in tqdm(range(3), leave=False, desc='1. 1st round'):
     print(bs_names)
     time.sleep(30)
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "pane")))
- #   while driver.find_elements_by_class_name("section-layout section-scrollbox cYB2Ge-oHo7ed cYB2Ge-ti6hGc siAUzd-neVct-Q3DXx-BvBYQ siAUzd-neVct-YbohUe-bnBfGc"):
-  #      driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-    
-    bs= [i.text for i in driver.find_elements_by_css_selector('[class="qBF1Pd gm2-subtitle-alt-1"]')]
+ #   WebDriverWait(driver, 30)
+#    d = driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')
+ #   #print("jjjj", len(d))
+    for r in range(6):
+        print("dada")
+        driver.execute_script("arguments[0].scrollIntoView();", driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')[-1])
+        time.sleep(5)
+#    touch_actions = TouchActions(driver)
+#    touch_actions.scroll_from_element(d[1],0,150).perform()
+ #   time.sleep(15)
+
+    bs = [i.text for i in driver.find_elements_by_css_selector('[class="qBF1Pd gm2-subtitle-alt-1"]')]
     bs_names += bs
 
-
     try:
-        WebDriverWait(driver, 40).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='ppdPk-Ej1Yeb-LgbsSe-tJiF1e']"))).click()
+        WebDriverWait(driver, 40).until(
+            EC.visibility_of_element_located((By.XPATH, "//*[@id='ppdPk-Ej1Yeb-LgbsSe-tJiF1e']"))).click()
     except ElementClickInterceptedException:
         break
 
-ps = pd.DataFrame(data={'names':bs_names})
+ps = pd.DataFrame(data={'names': bs_names})
 ps.to_csv('names.csv', index=False)
 print(bs_names)
 driver.close()
