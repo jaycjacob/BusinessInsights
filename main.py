@@ -28,9 +28,8 @@ for i in tqdm(range(3), leave=False, desc='1. 1st round'):
     print(bs_names)
     print(adresses)
     time.sleep(30)
- #   WebDriverWait(driver, 30)
-#    d = driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')
- #   #print("jjjj", len(d))
+
+    
     for r in range(6):
         driver.execute_script("arguments[0].scrollIntoView();", driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')[-1])
         time.sleep(5)
@@ -40,8 +39,7 @@ for i in tqdm(range(3), leave=False, desc='1. 1st round'):
 
     bs = [i.text for i in driver.find_elements_by_css_selector('[class="qBF1Pd gm2-subtitle-alt-1"]')]
     ad = [i.text for i in driver.find_elements_by_css_selector('[class="ZY2y6b-RWgCYc"]')]
-    ab = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[4]/div[1]/div[1]/div/div[2]/div[2]/div[1]/div/div/div/div[4]/div[1]/span[2]/jsl')
-    print("ababa", ab.text)
+
     bs_names += bs
     adresses += ad
 
