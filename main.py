@@ -31,11 +31,9 @@ def main():
  #   print(adresses)
         time.sleep(30)
 
-        for r in range(6):
-            driver.execute_script("arguments[0].scrollIntoView();",
-                                  driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')[-1])
-            time.sleep(5)
-        bs_names += get_names(driver)
+        scroll(driver)
+
+        bs_names += get_data(driver)
 
 
         try:
@@ -50,7 +48,7 @@ def main():
     #   time.sleep(15)
 
 
-def get_names(driver):
+def get_data(driver):
     bs = [i.text for i in driver.find_elements_by_css_selector('[class="qBF1Pd gm2-subtitle-alt-1"]')]
 #    ad = [i.text for i in driver.find_elements_by_css_selector('[class="ZY2y6b-RWgCYc"]')]
     return bs
@@ -60,6 +58,13 @@ def get_names(driver):
 def saving(bs_names):
     ps = pd.DataFrame(data={'names': bs_names})
     ps.to_csv('names.csv', index=False)
+
+
+def scroll(driver):
+    for r in range(6):
+        driver.execute_script("arguments[0].scrollIntoView();",
+                              driver.find_elements_by_xpath('//div[@class="qBF1Pd gm2-subtitle-alt-1"]')[-1])
+        time.sleep(5)
 
 
 if __name__ == '__main__':
